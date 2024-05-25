@@ -116,7 +116,7 @@ int main(void)
 
     std::string path = "3D/sphere.obj";
     std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> material;
+    std::vector<tinyobj::material_t> material;  
     std::string warning, error;
 
     tinyobj::attrib_t attributes;
@@ -237,9 +237,24 @@ int main(void)
     auto prev_time = curr_time;
     std::chrono::nanoseconds curr_ns(0);
 
+    //initialize launch of cannon
+    bool bLaunch = true;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+
+        if (bLaunch == true) {
+
+            glm::mat4 transformation_matrix = glm::translate(
+                identity_matrix4,
+                glm::vec3(x, y + 400.0f, z)
+            );
+
+            bLaunch = false;
+
+        }
+
         //get current time
         curr_time = clock::now();
         //check duration
@@ -258,8 +273,13 @@ int main(void)
             curr_ns -= curr_ns;
             //call updates
             std::cout << "P6 Update" << "\n";
+
+            glm::mat4 transformation_matrix = glm::translate(
+                identity_matrix4,
+                glm::vec3(x, y - 50, z)
+            );
         }
-        std::cout << "Normal Update" << "\n";
+        //std::cout << "Normal Update" << "\n";
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
