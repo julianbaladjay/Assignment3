@@ -27,6 +27,11 @@ namespace P6 {
         );
     }
 
+    void P6::P6Particle::Update(float time) {
+		this->UpdatePosition(time);
+		this->UpdateVelocity(time);
+	}
+
     void P6::P6Particle::UpdatePosition(float time) {
         //this->position = this->position + (this->velocity * time) + ((1.0f / 2.0f) * (this->acceleration * (time * time)));
     }

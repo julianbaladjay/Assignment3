@@ -45,11 +45,6 @@ int main(void)
     glfwMakeContextCurrent(window);
     gladLoadGL();
 
-    /*glViewport(0, //min x
-        0, //min y
-        640, //x
-        480); //y */
-
         //load vert shader
     std::fstream vertSrc("Shaders/sample.vert");
     std::stringstream vertBuff;
