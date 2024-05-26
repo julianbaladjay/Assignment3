@@ -237,21 +237,38 @@ int main(void)
     auto prev_time = curr_time;
     std::chrono::nanoseconds curr_ns(0);
 
+    float initiXvel;
+    float initiYvel;
+    float initiZvel;
+    float originH = 0;
+
     //initialize launch of cannon
     bool bLaunch = true;
+    bool bHasLanded = true;
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
 
-        if (bLaunch == true) {
+        //CODEBLOCK FOR ADDING INITIAL VELOCITY, MAKE SURE BALL IS ALREADY LANDED FROM ITS ORIGINAL POINT AND THE PROJECTILE WAS NOT LAUNCHED ALREADY
+        if (bLaunch == true && bHasLanded == true) {
 
-            glm::mat4 transformation_matrix = glm::translate(
-                identity_matrix4,
-                glm::vec3(x, y + 400.0f, z)
-            );
+            std::cout << "Input the initial velocity: " << std::endl;
+            std::cout << "X: " << std::endl;
+            std::cin >> initiXvel;
+            std::cout << "Y: " << std::endl;
+            std::cin >> initiYvel;
+            std::cout << "Z: " << std::endl;
+            std::cin >> initiZvel;
 
+            originH = sample.y;
+
+            P6::MyVector initial(initiXvel, initiYvel, initiZvel);
+            
+            sample.Add(initial);
             bLaunch = false;
+            bHasLanded = false;
+
 
         }
 
@@ -272,12 +289,26 @@ int main(void)
             //reset
             curr_ns -= curr_ns;
             //call updates
-            std::cout << "P6 Update" << "\n";
+           std::cout << "P6 Update" << "\n";
 
-            glm::mat4 transformation_matrix = glm::translate(
-                identity_matrix4,
-                glm::vec3(x, y - 50, z)
-            );
+           //Code snippet for gravitational falling effect:
+
+           if (bHasLanded != true) {
+
+               P6::MyVector acceleration(0, -50, 0);
+               sample.Subtract(acceleration);
+               std::cout << "Current vector is now falling at exactly: " << sample.y << "\n";
+
+           }
+
+           //Code snipper for the cannonball stopping after its reached its original point in time.
+           if (sample.y <= originH) {
+
+               bHasLanded = true;
+               bLaunch = true;
+               std::cout << "It took: " << (float)ms.count() << " seconds to land." << "\n";
+           }
+
         }
         //std::cout << "Normal Update" << "\n";
 
