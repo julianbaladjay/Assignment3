@@ -14,20 +14,71 @@ namespace P6 {
 
 			explicit operator glm::vec3() const { return glm::vec3(x, y, z); }
 
-			MyVector Add(MyVector b);
-			MyVector Subtract(MyVector b);
-			MyVector Multiply(MyVector b);
-			MyVector Divide(MyVector b);
+			MyVector operator+ (const MyVector& v) {
+				return MyVector(this->x + v.x, 
+								this->y + v.y, 
+								this->z + v.z);
+			}
+
+			MyVector operator- (const MyVector& v) {
+				return MyVector(this->x - v.x,
+								this->y - v.y,
+								this->z - v.z);
+			}
+
+			MyVector operator* (const MyVector& v) {
+				return MyVector(this->x * v.x,
+								this->y * v.y,
+								this->z * v.z);
+			}
+
+			MyVector operator*(const float scalar) {
+				return MyVector(this->x * scalar, 
+								this->y * scalar, 
+								this->z * scalar);
+			}
+
+			MyVector operator/ (const MyVector& v) {
+				return MyVector(this->x / v.x,
+								this->y / v.y,
+								this->z / v.z);
+			}
+
+			MyVector Add(MyVector b) {
+				return MyVector(
+					this->x + b.x,
+					this->y + b.y,
+					this->z + b.z
+				);
+			}
+			MyVector Subtract(MyVector b) {
+				return MyVector(
+					this->x - b.x,
+					this->y - b.y,
+					this->z - b.z
+				);
+			}
+			MyVector Multiply(MyVector b) {
+				return MyVector(
+					this->x * b.x,
+					this->y * b.y,
+					this->z * b.z
+				);
+			}
+
+			MyVector Divide(MyVector b) {
+				return MyVector(
+					this->x / b.x,
+					this->y / b.y,
+					this->z / b.z
+				);
+			}
 
 			float Magnitude() const;
 			MyVector Direction() const;
 			MyVector ScalarMultiplication(float scalar) const;
 			float ScalarProduct(MyVector b) const;
 			MyVector VectorProduct(MyVector b) const;
-
-		private:
-			glm::vec3 toGLM() const;
-			static MyVector fromGLM(const glm::vec3& vec);
 	};
 
 	class P6Particle {
